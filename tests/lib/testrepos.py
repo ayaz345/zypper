@@ -12,18 +12,18 @@ parser.add_argument("sourceDir")
 args = parser.parse_args()
 
 rpmbuildBin = shutil.which("rpmbuild")
-if rpmbuildBin == None:
+if rpmbuildBin is None:
     print("The rpmbuild binary was not found in PATH")
     sys.exit(1)
 
 createRepo = shutil.which("createrepo")
-if createRepo == None:
+if createRepo is None:
     print("The createrepo binary was not found in PATH")
     sys.exit(1)
 
 #create our rpmbuild directory
 builddir = tempfile.mkdtemp()
-if builddir == None:
+if builddir is None:
     print("Unable to create temporary directory")
     sys.exit(1)
 
@@ -44,10 +44,7 @@ if result != 0:
     sys.exit(1)
 
 print("Building the spec files worked, going to create the repository\n")
-result = subprocess.call([
-    createRepo,
-    "{}/rpms".format(builddir)
-])
+result = subprocess.call([createRepo, f"{builddir}/rpms"])
 
 if result != 0:
     sys.exit(1)
